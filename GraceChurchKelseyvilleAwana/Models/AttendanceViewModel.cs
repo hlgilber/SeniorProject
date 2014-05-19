@@ -7,8 +7,8 @@ namespace GraceChurchKelseyvilleAwana.Models
 {
     public class AttendanceViewModel
     {
-        public List<Student> Students { get; set; }
         public PagedList.PagedList<Attendance> Attendances { get; set; }
+        public List<AttendanceStatistics> Statistics { get; set; }
 
         public IEnumerable<Attendance> UniqueAttendanceDates()
         {
@@ -27,6 +27,12 @@ namespace GraceChurchKelseyvilleAwana.Models
                 return obj.AttendanceDate.GetHashCode();
             }
         }
+    }
 
+    public class AttendanceStatistics
+    {
+        public Student AttendanceStatisticsStudent { get; set; }
+        public float AttendanceRate { get; set; }
+        public int WeeksSinceLastAttendance { get; set; }
     }
 }
