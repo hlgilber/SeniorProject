@@ -1,0 +1,79 @@
+﻿@model GraceChurchKelseyvilleAwana.Models.RolesViewModel
+
+
+@{
+    ViewBag.Title = "Roles";
+}
+
+<h2>Roles</h2>
+
+@using (Html.BeginForm("Roles", "Account", FormMethod.Post))
+{
+    <h3>Unassigned</h3>
+    if (Model.UnassignedUsers.Length > 0)
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    User
+                </th>
+                <th>
+                    Role
+                </th>
+            </tr>
+            @for (int i = 0; i < Model.UnassignedUsers.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Model.UnassignedUsers[i].FullName()
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(modelitem => modelitem.UnassignedUsers[i].TempRole, Model.GetSelectListForUser(Model.UnassignedUsers[i]), new { @id = "UnassignedUsers_" + i})
+                        @Html.HiddenFor(modelItem => Model.UnassignedUsers[i].Id)
+                        @Html.HiddenFor(modelItem => modelItem.UnassignedUsers[i].EmailAddress)
+                        @Html.HiddenFor(modelItem => modelItem.UnassignedUsers[i].FirstName)
+                        @Html.HiddenFor(modelItem => modelItem.UnassignedUsers[i].LastName)
+                        @Html.HiddenFor(modelItem => modelItem.UnassignedUsers[i].UserName)
+                    </td>
+                </tr>
+            }
+        </table>
+    
+        <input type="submit" value="Save" class="btn btn-default" />
+    }
+    else
+    {
+        <text>There are no unassigned users at the moment.</text>
+    }
+    <br />
+    <br />
+    <h3>Reassign</h3>
+    <table class="table">
+            <tr>
+                <th>
+                    User
+                </th>
+                <th>
+                    Role
+                </th>
+            </tr>
+            @for (int i = 0; i < Model.AssignedUsers.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Model.AssignedUsers[i].FullName()
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(modelitem => modelitem.AssignedUsers[i].TempRole, Model.GetSelectListForUser(Model.AssignedUsers[i]), new { @id = "AssignedUsers_" + i})
+                        @Html.HiddenFor(modelItem => Model.AssignedUsers[i].Id)
+                        @Html.HiddenFor(modelItem => modelItem.AssignedUsers[i].EmailAddress)
+                        @Html.HiddenFor(modelItem => modelItem.AssignedUsers[i].FirstName)
+                        @Html.HiddenFor(modelItem => modelItem.AssignedUsers[i].LastName)
+                        @Html.HiddenFor(modelItem => modelItem.AssignedUsers[i].UserName)
+                    </td>
+                </tr>
+            }
+        </table>
+    
+        <input type="submit" value="Save" class="btn btn-default" />
+}
