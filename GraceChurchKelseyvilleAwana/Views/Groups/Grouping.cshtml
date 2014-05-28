@@ -1,0 +1,66 @@
+﻿@model GraceChurchKelseyvilleAwana.Models.GroupingViewModel
+
+@{
+    ViewBag.Title = "Grouping";
+}
+
+<h2>Grouping</h2>
+
+<h3>@Model.Leader.FullName()</h3>
+
+@if (Model.AssignedStudents.Count() > 0)
+{ 
+    using (Html.BeginForm("Unassign", "Groups", FormMethod.Post))
+    { 
+        <table class="table-condensed">
+            @for (int i = 0; i < @Model.AssignedStudents.Count(); i++ )
+            {
+                <tr>
+                    <td>
+                        @Html.CheckBoxFor(x => x.AssignedStudents[i].IsChecked, new { @id = "student_" + i })
+                        @Html.HiddenFor(x => x.AssignedStudents[i].student.StudentID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => x.AssignedStudents.ElementAt(i).student.BothNames)
+                    </td>
+                </tr>
+        
+            }
+        </table>
+        <input type="submit" value="Unassign" class="btn btn-default" />
+    }
+}
+else
+{
+    <text>This leader has no students.</text>
+}
+
+<h3>Unassigned Students</h3>
+
+@if (Model.UnassignedStudents.Count > 0)
+{
+    using (Html.BeginForm("Assign", "Groups", FormMethod.Post))
+    { 
+        <table class="table-condensed">
+            @for (int i = 0; i < @Model.UnassignedStudents.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.CheckBoxFor(x => x.UnassignedStudents[i].IsChecked, new { @id = "student_" + i })
+                        @Html.HiddenFor(x => x.UnassignedStudents[i].student.StudentID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => x.UnassignedStudents[i].student.BothNames)
+                    </td>
+                </tr>
+            }
+        </table>
+        @Html.HiddenFor(x => x.Leader.Id)
+        <input type="submit" value="Assign" class="btn btn-default" />
+        
+    }
+}
+else
+{
+    <text>All students are currrently assigned to a leader.</text>
+}

@@ -46,6 +46,9 @@
         <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().MedicalInformation)
         </th>
+        <th>
+            <!--Empty header to give consistent size to table-->
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -84,8 +87,11 @@
 }
 
 </table>
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@if(Model.PageCount > 1)
+{ 
+    <br />
+    <text>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</text>
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}

@@ -21,7 +21,7 @@ namespace GraceChurchKelseyvilleAwana.Controllers
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            var students = from s in db.Students select s;
+            var students = GetAvailableStudents();
 
             if (searchString != null)
             {
@@ -55,6 +55,32 @@ namespace GraceChurchKelseyvilleAwana.Controllers
             //If not logged in do this:
             //return RedirectToAction("Index", "Home");
             return View(students.ToPagedList((page ?? 1), pageSize));
+        }
+
+        public IQueryable<Student> GetAvailableStudents()
+        {
+            var students = from s in db.Students select s;
+            if (User.IsInRole(AwanaRoles.Leader.ToString()))
+            {
+                var user = ApplicationUser.GetFromUserIdentity(User.Identity);
+                students = students.Where(x => x.LeaderID.Equals(user.Id));
+            }
+            else if (User.IsInRole(AwanaRoles.Admin.ToString()))
+            {
+                //Admin gets all students
+            }
+            else if (User.IsInRole(AwanaRoles.Director.ToString()))
+            {
+                // TODO: Add directors implementation
+                //accessibleStudents = db.Students.ToList();
+            }
+            else if (User.IsInRole(AwanaRoles.Parent.ToString()))
+            {
+                // TODO: Add parents implementation
+                //accessibleStudents = db.Students.ToList();
+            }
+
+            return students;
         }
 
         // GET: /Student/Details/5

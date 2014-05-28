@@ -44,47 +44,12 @@ namespace GraceChurchKelseyvilleAwana.Controllers
                         AttendanceRate = attendanceRate,
                         WeeksSinceLastAttendance = weeksSinceLastAttendance
                     });
-
-                //List<Attendance> toRemove = new List<Attendance>();
-                //foreach (var badAtt in student.Attendances.Where(x => !x.AttendanceDate.DayOfWeek.Equals(DayOfWeek.Tuesday)))
-                //{
-                //    toRemove.Add(badAtt);
-                //}
-                //foreach(var att in toRemove)
-                //{
-                //    student.Attendances.Remove(att);
-                //}
-                //db.SaveChanges();
             }
 
             _lastPage = page;
-            return View(/*pageList*/new AttendanceViewModel { Attendances = pageList, Statistics = statisticsList });
+            return View(new AttendanceViewModel { Attendances = pageList, Statistics = statisticsList });
         }
-/*
-        [HttpPost]
-        public ActionResult Index(FormCollection form)
-        {
-            var attendanceList = form.GetValues(0);
-            var students = db.Students.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
-            var i = 0;
 
-            foreach (var student in students)
-            {
-                foreach (var attendance in student.Attendances.OrderByDescending(a => a.AttendanceDate))
-                {
-                    var attended = bool.Parse(attendanceList.ElementAt(i++));
-                    if (attended)
-                    {
-                        i++;
-                    }
-                    attendance.Attended = attended;
-                }
-            }
-            db.SaveChanges();
-
-            return RedirectToAction("index");
-        }
-*/
         [HttpPost]
         public ActionResult Index(ICollection<Attendance> attendances)
         {
@@ -143,11 +108,31 @@ namespace GraceChurchKelseyvilleAwana.Controllers
             return attendancesAdded;
         }
 
-        // Unimplimented for now
+
         public List<Student> StudentsUserHasAccessTo()
         {
-            //User.IsInRole("Admin"/"Director"/"Leader")
-            return db.Students.ToList();
+            List<Student> accessibleStudents = new List<Student>();
+            if (User.IsInRole(AwanaRoles.Leader.ToString()))
+            {
+                var user = ApplicationUser.GetFromUserIdentity(User.Identity);
+                accessibleStudents = user.Students.ToList();
+            }
+            else if (User.IsInRole(AwanaRoles.Admin.ToString()))
+            {
+                accessibleStudents = db.Students.ToList();
+            }
+            else if (User.IsInRole(AwanaRoles.Director.ToString()))
+            {
+                // TODO: Add directors implementation
+                accessibleStudents = db.Students.ToList();
+            }
+            else if (User.IsInRole(AwanaRoles.Parent.ToString()))
+            {
+                // TODO: Add parents implementation
+                //accessibleStudents = db.Students.ToList();
+            }
+
+            return accessibleStudents;
         }
 
         protected override void Dispose(bool disposing)

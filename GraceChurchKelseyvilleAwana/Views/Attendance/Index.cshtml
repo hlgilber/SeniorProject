@@ -12,52 +12,16 @@
 @using (Html.BeginForm("Index", "Attendance", FormMethod.Post))
 {
     <table class="table">
-
-        @*
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Students.ElementAt(0).BothNames)
-                </th>
-                @foreach (var item in Model.Students.ElementAt(0).Attendances.OrderByDescending(x => x.AttendanceDate)) {
-                    <th>
-                        @Html.DisplayFor(modelItem => item.AttendanceDate)
-                    </th>
-                }
-            </tr>
-            @foreach (var student in Model.Students.OrderBy(x => x.LastName).ThenBy(x => x.FirstName))
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => student.BothNames)
-                    </td>
-                    @foreach (var attendance in student.Attendances.OrderByDescending(x => x.AttendanceDate))
-                    {
-                        @*int j = Model.Students.ElementAt(i).Attendances.ToList().IndexOf(attendance);
-                        <td>
-                            <input type="checkbox" checked="@Model.Students[i].Attendances.ElementAt(j).Attended" Name="attendances" value=@Model.Students[i].Attendances.ElementAt(j).Attended/>
-                        </td>*@
-        @*                <td>
-                @Html.CheckBoxFor(modelItem => attendance.Attended)
-            </td>
-            @*int j = Model.Students.ElementAt(i).Attendances.ToList().IndexOf(attendance);*@
-        @*<td>
-                @Html.CheckBoxFor(modelItem => modelItem.Students[i].Attendances.ElementAt(j).Attended)
-            </td>*@
-        @*            }
-                </tr>
-            }
-        *@
-        @*    @Model.Attendances.OrderBy(x => x.Student.LastName).ThenBy(x => x.Student.FirstName).ThenByDescending(x => x.AttendanceDate)*@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Attendances[0].Student.BothNames)
             </th>
             @foreach (var item in Model.Attendances.Distinct(new GraceChurchKelseyvilleAwana.Models.AttendanceViewModel.UniqueDateComparer()))
-        {
+            {
                 <th>
                     @Html.DisplayFor(model => item.AttendanceDate)
                 </th>
-        }
+            }
         </tr>
         @{
         int i = 0;
@@ -74,9 +38,7 @@
                     <td>
                         @Html.CheckBoxFor(modelItem => modelItem.Attendances[attendanceOffset].Attended, new { @id = "attendance_" + i })
                         @Html.HiddenFor(modelItem => modelItem.Attendances[attendanceOffset].AttendanceDate)
-                        @Html.HiddenFor(modelItem => modelItem.Attendances[attendanceOffset].Student)
                         @Html.HiddenFor(modelItem => modelItem.Attendances[attendanceOffset].StudentID)
-                        @*@Model.Attendances[attendanceOffset].AttendanceDate @Model.Attendances[attendanceOffset].Student.BothNames*@
                     </td>
                 }
             </tr>
@@ -87,14 +49,17 @@
     </table>
     <input type="submit" value="Save" class="btn btn-default" />
 }
-<br />
-Page @(Model.Attendances.PageCount < Model.Attendances.PageNumber ? 0 : Model.Attendances.PageNumber) of @Model.Attendances.PageCount
+@if (Model.Attendances.PageCount > 1)
+{ 
+    <br />
+    <text>Page @(Model.Attendances.PageCount < Model.Attendances.PageNumber ? 0 : Model.Attendances.PageNumber) of @Model.Attendances.PageCount</text>
 
-@Html.PagedListPager(Model.Attendances, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model.Attendances, page => Url.Action("Index", new { page }))
+}
 
 <h2>Statistics</h2>
 
-<table>
+<table class="table-bordered" cellpadding="10">
     <tr>
         <th>Student</th>
         <th>Attendance Rate</th>

@@ -60,7 +60,11 @@ namespace GraceChurchKelseyvilleAwana.Models
 
         [Key]
         public int StudentID { get; set; }
+
+        public string LeaderID { get; set; }
     
         public virtual ICollection<Attendance> Attendances { get; set; }
+
+        public virtual ApplicationUser Leader { get; set; } 
     }
 }

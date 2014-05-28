@@ -1,0 +1,39 @@
+﻿@model GraceChurchKelseyvilleAwana.Models.GroupsViewModel
+
+
+@{
+    ViewBag.Title = "Groups";
+}
+
+<h2>Groups</h2>
+
+<table class="table-bordered" cellpadding="10">
+    <tr>
+        <th>
+            Leaders
+        </th>
+        <th>
+            Students
+        </th>
+    </tr>
+    @foreach (var leader in Model.Leaders)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink((string)leader.FullName(), "Grouping", new { @id = leader.Id })
+            </td>
+            <td>
+                @for (int i = 0; i < leader.Students.Count; i++)
+                {
+                    var student = leader.Students.ElementAt(i);
+                    @Html.ActionLink(student.BothNames, "Details", "Student", new { @id = student.StudentID }, null)
+                    if (i + 1 < leader.Students.Count)
+                    {
+                        <text>, </text>
+                    }
+                }
+            </td>
+        </tr>
+    }
+</table>
+

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
@@ -19,7 +21,7 @@ namespace GraceChurchKelseyvilleAwana.Models
         }
 
         //Operates under the assumption that a user can never have more than one role
-        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        [NotMapped]
         public AwanaRoles Role
         {
             get
@@ -48,6 +50,16 @@ namespace GraceChurchKelseyvilleAwana.Models
             get;
             set;
         }
+
+        public virtual ICollection<Student> Students { get; set; }
+
+        public static ApplicationUser GetFromUserIdentity(System.Security.Principal.IIdentity identity)
+        {
+            using (var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            {
+                return userManager.FindById(identity.GetUserId());
+            }
+        }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -55,6 +67,12 @@ namespace GraceChurchKelseyvilleAwana.Models
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Student>().HasOptional<ApplicationUser>(s => s.Leader).WithMany(s => s.Students).HasForeignKey(s => s.LeaderID);
         }
 
         public DbSet<Student> Students { get; set; }
