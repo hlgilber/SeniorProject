@@ -173,18 +173,24 @@
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SectionsController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="EmailHelper\EmailHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AgeGroups.cs" />
     <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\AttendanceViewModel.cs" />
     <Compile Include="Models\EmailViewModel.cs" />
     <Compile Include="Models\GroupsViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\AwanaRoles.cs" />
+    <Compile Include="Models\SectionsViewModels.cs" />
+    <Compile Include="Models\Sections\Book.cs" />
+    <Compile Include="Models\Sections\Chapter.cs" />
+    <Compile Include="Models\Sections\Section.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -200,6 +206,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\CreateBooks.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -248,6 +255,8 @@
     <Content Include="Views\Account\Roles.cshtml" />
     <Content Include="Views\Groups\Index.cshtml" />
     <Content Include="Views\Groups\Grouping.cshtml" />
+    <Content Include="Views\Sections\Index.cshtml" />
+    <Content Include="Views\Sections\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

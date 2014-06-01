@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Book</h2>
+
+@using (Html.BeginForm("Create", "Sections", FormMethod.Post, new { @id = "myForm" }))
+{
+    <div class="form-horizontal">
+        <hr/>
+        <div class="form-group">
+            @Html.Label("Title", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="bookName" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Age Group", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="ageGroup" class="dropdown">
+                    @foreach (var group in Enum.GetNames(typeof(GraceChurchKelseyvilleAwana.Models.AgeGroups)))
+                    {
+                        <option value=@group>@group.ToString()</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Number of Chapters", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="number" min="1" id="numberOfRows" />
+                <input type="button" name="GenerateTableButton" value="Change" onclick="onGenerateTableButtonClick()" />
+            </div>
+        </div>
+    </div>
+
+    <table id="chaptersTable" class="table-bordered" cellpadding="15">
+        <tr>
+            <th>
+                Chapter
+            </th>
+            <th>
+                Number of Sections
+            </th>
+        </tr>
+    </table>
+
+    <br />
+    <br />
+        
+    <input id="submitButton" type="button" value="Save" class="btn btn-default" onclick="checkFormAndSubmit2()" disabled="disabled"/>
+
+        <script type="text/javascript" src="@Url.Content("/Scripts/CreateBooks.js")" ></script>
+
+    <script type="text/javascript" language="javascript">
+        function onGenerateTableButtonClick() {
+            var table = document.getElementById("chaptersTable");
+            var rowNumString = document.getElementById("numberOfRows").value;
+            var rowNum = +rowNumString;
+
+            if (isNaN(rowNum) || rowNum < 1)
+            {
+                alert("Number of chapters must be a number greater than 0");
+            }
+            else
+            {
+                while (table.rows.length > 1)
+                {
+                    table.deleteRow(1);
+                }
+                var counter = 0;
+                while (table.rows.length <= rowNum)
+                {
+                    var row = table.insertRow(table.rows.length);
+                    var cell1 = row.insertCell(0);
+                    cell1.align = "center";
+                    var chapterNumber = document.createElement("text");
+                    chapterNumber.textContent = "" + table.rows.length - 1;
+                    cell1.appendChild(chapterNumber);
+                    var cell2 = row.insertCell(1);
+                    var sectionInput = document.createElement("input");
+                    sectionInput.id = "section_" + table.rows.length - 1;
+                    sectionInput.name = "section[" + counter++ + "]";
+                    sectionInput.type = "number";
+                    sectionInput.min = "1";
+                    sectionInput.value = "1";
+                    cell2.appendChild(sectionInput);
+                }
+                document.getElementById("submitButton").disabled = false;
+            }
+        }
+    </script>
+}
+
+
+

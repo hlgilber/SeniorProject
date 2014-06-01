@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using GraceChurchKelseyvilleAwana.Models.Sections;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace GraceChurchKelseyvilleAwana.Models
             }
         }
 
-        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        [NotMapped]
         public AwanaRoles TempRole
         {
             get;
@@ -73,9 +74,15 @@ namespace GraceChurchKelseyvilleAwana.Models
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Student>().HasOptional<ApplicationUser>(s => s.Leader).WithMany(s => s.Students).HasForeignKey(s => s.LeaderID);
+            modelBuilder.Entity<Chapter>().HasKey(c => new { c.ChapterID, c.BookID}).HasRequired<Book>(c => c.Book).WithMany(b => b.Chapters).HasForeignKey(c => c.BookID);
+            modelBuilder.Entity<Section>().HasKey(s => new { s.SectionID, s.ChapterID, s.BookID }).HasRequired<Chapter>(s => s.Chapter).WithMany(c => c.Sections).HasForeignKey(s => new { s.ChapterID, s.BookID });
         }
 
         public DbSet<Student> Students { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
+
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Chapter> Chapters { get; set; }
+        public DbSet<Section> Sections { get; set; }
     }
 }

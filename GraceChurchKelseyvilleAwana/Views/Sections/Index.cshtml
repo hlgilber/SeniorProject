@@ -1,0 +1,50 @@
+﻿@model GraceChurchKelseyvilleAwana.Models.IndexSectionsViewModel
+
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Books</h2>
+
+<p>
+    @Html.ActionLink("Create New Book", "Create")
+</p>
+
+@foreach (var book in Model.Books)
+{
+    <table class="table-condensed">
+        <tr>
+            <td valign="baseline">
+                <h3>
+                    @Html.DisplayFor(modelItem => book.BookID)
+                </h3>
+            </td>
+            <td valign="baseline">
+                @Html.ActionLink("Delete", "Delete", new { bookId = book.BookID} )
+            </td>
+        </tr>
+    </table>
+    <table class="table-condensed" border="1" style="margin-left:25px">
+        <tr>
+            <th>
+                <b>Chapter</b>
+            </th>
+            <th>
+                <b>Number of Sections</b>
+            </th>
+        </tr>
+        @foreach (var chapter in book.Chapters)
+        {
+            <tr>
+                <td align="center">
+                    @chapter.ChapterID
+                </td>
+                <td align="center">
+                    @chapter.Sections.Count
+                </td>
+            </tr>
+        }
+    </table>
+}
+
