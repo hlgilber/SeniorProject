@@ -12,7 +12,7 @@
         <div class="form-group">
             @Html.Label("Title", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="text" name="bookName" />
+                <input type="text" name="bookName" id="bookName" />
             </div>
         </div>
 
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <table id="chaptersTable" class="table-bordered" cellpadding="15">
+    <table id="chaptersTable" class="table-bordered col-md-offset-2" cellpadding="15">
         <tr>
             <th>
                 Chapter
@@ -51,7 +51,7 @@
     <br />
     <br />
         
-    <input id="submitButton" type="button" value="Save" class="btn btn-default" onclick="checkFormAndSubmit2()" disabled="disabled"/>
+    <input id="submitButton" type="button" value="Save" class="btn btn-default" onclick="checkFormAndSubmit()" disabled="disabled"/>
 
         <script type="text/javascript" src="@Url.Content("/Scripts/CreateBooks.js")" ></script>
 
