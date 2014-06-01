@@ -24,7 +24,7 @@ namespace GraceChurchKelseyvilleAwana
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap.css", //Change back to bootstrap-theme.css to add theme
                       "~/Content/site.css"));
         }
     }

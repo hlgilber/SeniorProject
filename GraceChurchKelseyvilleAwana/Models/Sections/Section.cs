@@ -16,5 +16,7 @@ namespace GraceChurchKelseyvilleAwana.Models.Sections
         public string BookID { get; set; }
 
         public virtual Chapter Chapter { get; set; }
+
+        public virtual ICollection<SectionCompletion> Completions { get; set; }
     }
 }

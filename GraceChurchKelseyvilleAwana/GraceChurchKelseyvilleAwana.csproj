@@ -187,6 +187,7 @@
     <Compile Include="Models\GroupsViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\AwanaRoles.cs" />
+    <Compile Include="Models\SectionCompletion.cs" />
     <Compile Include="Models\SectionsViewModels.cs" />
     <Compile Include="Models\Sections\Book.cs" />
     <Compile Include="Models\Sections\Chapter.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
@@ -257,6 +259,8 @@
     <Content Include="Views\Groups\Grouping.cshtml" />
     <Content Include="Views\Sections\Index.cshtml" />
     <Content Include="Views\Sections\Create.cshtml" />
+    <Content Include="Views\Sections\Progress.cshtml" />
+    <Content Include="Views\Sections\TrackProgress.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

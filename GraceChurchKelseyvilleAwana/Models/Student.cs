@@ -65,6 +65,8 @@ namespace GraceChurchKelseyvilleAwana.Models
     
         public virtual ICollection<Attendance> Attendances { get; set; }
 
+        public virtual ICollection<SectionCompletion> SectionsCompleted { get; set; }
+
         public virtual ApplicationUser Leader { get; set; } 
     }
 }

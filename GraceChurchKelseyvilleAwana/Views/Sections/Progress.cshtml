@@ -1,0 +1,21 @@
+﻿@model GraceChurchKelseyvilleAwana.Models.SectionsProgressListingViewModel
+
+@{
+    ViewBag.Title = "Progress";
+}
+
+<h2>Sections Progress</h2>
+
+<table class="table-bordered" cellpadding="15">
+    @foreach (var student in Model.Students)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(item => student.BothNames)
+            </td>
+            <td>
+                @Html.ActionLink("Track Progress", "TrackProgress", new { @id = student.StudentID })
+            </td>
+        </tr>
+    }
+</table>

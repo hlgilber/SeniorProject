@@ -1,0 +1,45 @@
+﻿@model GraceChurchKelseyvilleAwana.Models.TrackProgressViewModel
+
+@{
+    ViewBag.Title = "TrackProgress";
+}
+
+<h2>@Model.Student.BothNames's Progress</h2>
+
+@using (Html.BeginForm("TrackProgress", "Sections", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.Student.StudentID)
+    
+    <div class="row">
+        @for (int i = 0; i < Model.Books.Count; i++)
+        {
+            <div class="col-md-2">
+                <h3>@Model.Books[i].Title</h3>
+                @Html.HiddenFor(model => model.Books[i].Title)
+
+                @for (int j = 0; j < Model.Books[i].Chapters.Count; j++)
+                {
+                    <h4 style="margin-left:10px">Chapter @Model.Books[i].Chapters[j].ChapterNumber</h4>
+                    @Html.HiddenFor(model => model.Books[i].Chapters[j].ChapterNumber)
+
+                    for (int k = 0; k < Model.Books[i].Chapters[j].Sections.Count; k++)
+                    {
+                        <div style="margin-left:30px">
+                            @Html.CheckBoxFor(model => model.Books[i].Chapters[j].Sections[k].Completed)
+                            Section @Model.Books[i].Chapters[j].Sections[k].Section.SectionID
+                            <br />
+                            @Html.HiddenFor(model => model.Books[i].Chapters[j].Sections[k].Section.BookID)
+                            @Html.HiddenFor(model => model.Books[i].Chapters[j].Sections[k].Section.ChapterID)
+                            @Html.HiddenFor(model => model.Books[i].Chapters[j].Sections[k].Section.SectionID)
+                        </div>
+                    }
+                }
+            </div>
+        }
+    </div>
+
+    <input type="submit" value="Save" class="btn btn-default" style="margin-top:25px" />
+}
+
+
+

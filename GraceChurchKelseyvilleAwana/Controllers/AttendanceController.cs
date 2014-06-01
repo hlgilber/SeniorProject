@@ -22,7 +22,7 @@ namespace GraceChurchKelseyvilleAwana.Controllers
             _lastAwanaDate = LastAwanaDate();
             _lastDateToShow = Constants.AwanaStartDate;//_lastAwanaDate.AddDays(-(DAYS_IN_WEEK * (NUMBER_OF_WEEKS_TO_SHOW - 1)));
 
-            var students = StudentsUserHasAccessTo();
+            var students = db.StudentsUserHasAccessTo(User);
             var attendances = students.SelectMany(x => x.Attendances).ToList();
             GenerateAttendancesIfNeeded(_lastDateToShow, _lastAwanaDate, students, attendances);
 
@@ -109,31 +109,7 @@ namespace GraceChurchKelseyvilleAwana.Controllers
         }
 
 
-        public List<Student> StudentsUserHasAccessTo()
-        {
-            List<Student> accessibleStudents = new List<Student>();
-            if (User.IsInRole(AwanaRoles.Leader.ToString()))
-            {
-                var user = ApplicationUser.GetFromUserIdentity(User.Identity);
-                accessibleStudents = user.Students.ToList();
-            }
-            else if (User.IsInRole(AwanaRoles.Admin.ToString()))
-            {
-                accessibleStudents = db.Students.ToList();
-            }
-            else if (User.IsInRole(AwanaRoles.Director.ToString()))
-            {
-                // TODO: Add directors implementation
-                accessibleStudents = db.Students.ToList();
-            }
-            else if (User.IsInRole(AwanaRoles.Parent.ToString()))
-            {
-                // TODO: Add parents implementation
-                //accessibleStudents = db.Students.ToList();
-            }
-
-            return accessibleStudents;
-        }
+        
 
         protected override void Dispose(bool disposing)
         {

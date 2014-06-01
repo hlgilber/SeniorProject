@@ -25,6 +25,72 @@ namespace GraceChurchKelseyvilleAwana.Controllers
         }
 
         //
+        // GET: /Sections/Progress
+        public ActionResult Progress()
+        {
+            var students = db.StudentsUserHasAccessTo(User);
+
+            return View(new SectionsProgressListingViewModel { Students = students });
+        }
+
+        //
+        // GET: /Sections/TrackProgress/studentID
+        public ActionResult TrackProgress(int id)
+        {
+            var books = db.Books.ToList();
+            var student = db.Students.First(s => s.StudentID == id);
+            var completedSections = student.SectionsCompleted;
+
+            var bookCheckList = new List<BookCheckList>();
+            foreach (var book in books)
+            {
+                var chapterCheckList = new List<ChapterCheckList>();
+                foreach (var chapter in book.Chapters)
+                {
+                    var sectionCheckList = new List<SectionCheckList>();
+                    foreach(var section in chapter.Sections)
+                    {
+                        sectionCheckList.Add(new SectionCheckList { Section = section, Completed = completedSections.FirstOrDefault(c => c.Section.Equals(section)) != null});
+                    }
+                    chapterCheckList.Add(new ChapterCheckList { ChapterNumber = chapter.ChapterID, Sections = sectionCheckList});
+                }
+                bookCheckList.Add(new BookCheckList { Title = book.BookID, Chapters = chapterCheckList});
+            }
+
+            return View(new TrackProgressViewModel { Books = bookCheckList, Student = student });
+        }
+
+        [HttpPost]
+        public ActionResult TrackProgress(TrackProgressViewModel vm)
+        {
+            var allSections = vm.Books.SelectMany(b => b.Chapters.SelectMany(c => c.Sections));
+            var completedSections = allSections.Where(s => s.Completed);
+            var student = db.Students.First(s => s.StudentID == vm.Student.StudentID);
+
+            foreach(var completedSection in completedSections)
+            {
+                var sectionCompletion = ToSectionCompletion(completedSection, student);
+
+                if (!student.SectionsCompleted.Contains(sectionCompletion))
+                {
+                    student.SectionsCompleted.Add(sectionCompletion);
+                }
+            }
+
+            db.SaveChanges();
+
+            return RedirectToAction("Progress");
+        }
+
+
+
+        public SectionCompletion ToSectionCompletion(SectionCheckList selectionCheckList, Student student)
+        {
+            var Section = db.Sections.First(s => s.BookID.Equals(selectionCheckList.Section.BookID) && s.ChapterID == selectionCheckList.Section.ChapterID && s.SectionID == selectionCheckList.Section.SectionID);
+            return new SectionCompletion { Student = student, BookID = Section.BookID, ChapterID = Section.ChapterID, SectionID = Section.SectionID, StudentID = student.StudentID, DateCompleted = DateTime.Today };
+        }
+
+        //
         // GET: /Sections/Create
         [HttpGet]
         public ActionResult Create()

@@ -3,9 +3,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Security.Principal;
 
 namespace GraceChurchKelseyvilleAwana.Models
 {
@@ -76,6 +78,35 @@ namespace GraceChurchKelseyvilleAwana.Models
             modelBuilder.Entity<Student>().HasOptional<ApplicationUser>(s => s.Leader).WithMany(s => s.Students).HasForeignKey(s => s.LeaderID);
             modelBuilder.Entity<Chapter>().HasKey(c => new { c.ChapterID, c.BookID}).HasRequired<Book>(c => c.Book).WithMany(b => b.Chapters).HasForeignKey(c => c.BookID);
             modelBuilder.Entity<Section>().HasKey(s => new { s.SectionID, s.ChapterID, s.BookID }).HasRequired<Chapter>(s => s.Chapter).WithMany(c => c.Sections).HasForeignKey(s => new { s.ChapterID, s.BookID });
+            modelBuilder.Entity<SectionCompletion>().HasKey(sc => new { sc.StudentID, sc.BookID, sc.ChapterID, sc.SectionID }).HasRequired(sc => sc.Student).WithMany(s => s.SectionsCompleted).HasForeignKey(s => new { s.StudentID })
+                .WillCascadeOnDelete();
+            modelBuilder.Entity<SectionCompletion>().HasRequired(sc => sc.Section).WithMany(s => s.Completions).HasForeignKey(sc => new { sc.SectionID, sc.ChapterID, sc.BookID });
+        }
+
+        public List<Student> StudentsUserHasAccessTo(IPrincipal User)
+        {
+            List<Student> accessibleStudents = new List<Student>();
+            if (User.IsInRole(AwanaRoles.Leader.ToString()))
+            {
+                var user = ApplicationUser.GetFromUserIdentity(User.Identity);
+                accessibleStudents = user.Students.ToList();
+            }
+            else if (User.IsInRole(AwanaRoles.Admin.ToString()))
+            {
+                accessibleStudents = Students.ToList();
+            }
+            else if (User.IsInRole(AwanaRoles.Director.ToString()))
+            {
+                // TODO: Add directors implementation
+                accessibleStudents = Students.ToList();
+            }
+            else if (User.IsInRole(AwanaRoles.Parent.ToString()))
+            {
+                // TODO: Add parents implementation
+                //accessibleStudents = db.Students.ToList();
+            }
+
+            return accessibleStudents;
         }
 
         public DbSet<Student> Students { get; set; }
