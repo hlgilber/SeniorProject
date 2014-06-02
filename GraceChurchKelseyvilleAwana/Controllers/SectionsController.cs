@@ -137,35 +137,7 @@ namespace GraceChurchKelseyvilleAwana.Controllers
 
             return RedirectToAction("Index");
         }
-
-
-        //private void GenerateTestBook()
-        //{
-        //    var testBook = new Book { BookID = "TestBook" };
-        //    db.Books.Add(testBook);
-        //    var testChapter1 = new Chapter { BookID = testBook.BookID, ChapterID = 1 };
-        //    var testChapter2 = new Chapter { BookID = testBook.BookID, ChapterID = 2 };
-        //    db.Chapters.Add(testChapter1);
-        //    db.Chapters.Add(testChapter2);
-
-        //    var testChapterSections = new List<Section>();
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        testChapterSections.Add(new Section { ChapterID = testChapter1.ChapterID, BookID = testChapter1.BookID, SectionID = i + 1 });
-        //    }
-        //    db.Sections.AddRange(testChapterSections);
-
-        //    testChapterSections.Clear();
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        testChapterSections.Add(new Section { ChapterID = testChapter2.ChapterID, BookID = testChapter2.BookID, SectionID = i + 1 });
-        //    }
-        //    db.Sections.AddRange(testChapterSections);
-
-        //    db.SaveChanges();
-        //}
-
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

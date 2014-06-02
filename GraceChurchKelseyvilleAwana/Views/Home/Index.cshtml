@@ -3,29 +3,50 @@
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+    <h1>Welcome</h1>
+    <p class="lead">The Grace Church Kelseyville Awana application is designed to help you with all your Awana needs.
+    Click a button on the navbar at the top of the page to get started.</p>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
+    <div class="col-md-3">
+        <h2>Students</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Here you can see a listing of the students that are assigned to you.
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <div class="col-md-3">
+        <h2>Attendance</h2>
+        <p>Here you can view and record attendance for each of your students.</p>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-3">
+        <h2>Sections</h2>
+        <p>Here you can track the progress of your students in each of the Awana books.</p>
+    </div>
+    <div class="col-md-3">
+        <h2>Manage Account</h2>
+        <p>You can manage your account settings by clicking on your username at the top of the page.</p>
     </div>
 </div>
+
+@if (User.IsInRole(GraceChurchKelseyvilleAwana.Models.AwanaRoles.Admin.ToString()))
+{
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Books</h2>
+            <p>Here you can configure the books that are being used by your program.</p>
+        </div>
+        <div class="col-md-3">
+            <h2>Groups</h2>
+            <p>Here you can create groupings by assigning students to their leaders.</p>
+        </div>
+        <div class="col-md-3">
+            <h2>Manage Roles</h2>
+            <p>This is where you can approve account registrations as well as assign them to be an admin, director, leader, or parent user.</p>
+        </div>
+        <div class="col-md-3">
+            <h2>Emailing</h2>
+            <p>This is where you can send out reminder emails to students and leaders.</p>
+        </div>
+    </div>
+}
