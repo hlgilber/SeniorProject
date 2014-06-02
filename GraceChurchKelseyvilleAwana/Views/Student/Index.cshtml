@@ -8,9 +8,12 @@
 
 <h2>Students</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (User.IsInRole(GraceChurchKelseyvilleAwana.Models.AwanaRoles.Admin.ToString()))
+{ 
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
 
 @using (Html.BeginForm("Index", "Student", FormMethod.Get))
 {
@@ -43,12 +46,16 @@
         <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().EmailAddress)
         </th>
+@if (User.IsInRole(GraceChurchKelseyvilleAwana.Models.AwanaRoles.Admin.ToString()))
+{
         <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().MedicalInformation)
         </th>
+
         <th>
             <!--Empty header to give consistent size to table-->
         </th>
+}
     </tr>
 
 @foreach (var item in Model) {
@@ -75,6 +82,8 @@
         <td>
             @Html.DisplayFor(modelItem => item.EmailAddress)
         </td>
+@if (User.IsInRole(GraceChurchKelseyvilleAwana.Models.AwanaRoles.Admin.ToString()))
+{
         <td>
             @Html.DisplayFor(modelItem => item.MedicalInformation)
         </td>
@@ -83,6 +92,7 @@
             @Html.ActionLink("Details", "Details", new { id=item.StudentID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.StudentID })
         </td>
+}
     </tr>
 }
 
