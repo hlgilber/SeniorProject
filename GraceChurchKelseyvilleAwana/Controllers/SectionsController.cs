@@ -71,8 +71,9 @@ namespace GraceChurchKelseyvilleAwana.Controllers
             {
                 var sectionCompletion = ToSectionCompletion(completedSection, student);
 
-                if (!student.SectionsCompleted.Contains(sectionCompletion))
+                if (student.SectionsCompleted.FirstOrDefault(s => s.BookID.Equals(sectionCompletion.BookID) && s.ChapterID == sectionCompletion.ChapterID && s.SectionID == sectionCompletion.SectionID) == null)
                 {
+
                     student.SectionsCompleted.Add(sectionCompletion);
                 }
             }
